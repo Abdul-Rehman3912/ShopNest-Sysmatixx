@@ -14,27 +14,30 @@ dotenv.config();
 
 const app = express();
 
-connectDB();
-
 const allowedOrigins = [
-  "http://localhost:3000", 
-  "http://localhost:5173",
-  "https://shop-nest-sysmatixx-jbqd.vercel.app"
+  "http://localhost:3000",
+  process.env.FRONTEND_URL,
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.indexOf(origin) !== -1) {
+
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("The CORS policy for this site does not allow access from the specified Origin."));
+        callback(
+          new Error(
+            "The CORS policy for this site does not allow access from the specified Origin.",
+          ),
+        );
       }
     },
-    credentials: true, 
-  })
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
 );
 
 app.use(express.json());
@@ -47,11 +50,9 @@ app.use("/api/payment", paymentRoute);
 app.use("/api/analytics", analyticRoute);
 app.use("/api", aiRoute);
 
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server is Running on Port ${PORT}`);
-  });
-}
+const PORT = process.env.PORT || 5000;
 
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Server is Running on Port ${PORT}`);
+  connectDB();
+});

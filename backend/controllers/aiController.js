@@ -85,12 +85,16 @@ const aiSearch = async (req, res) => {
     );
 
     if (filteredKeywords.length > 0) {
-      searchQuery.$or = filteredKeywords.map((keyword) => ({
-        $or: [
-          { name: { $regex: keyword, $options: "i" } },
-          { description: { $regex: keyword, $options: "i" } },
-        ],
-      }));
+      const flatOrConditions = [];
+
+      filteredKeywords.forEach((keyword) => {
+        flatOrConditions.push({ name: { $regex: keyword, $options: "i" } });
+        flatOrConditions.push({
+          description: { $regex: keyword, $options: "i" },
+        });
+      });
+
+      searchQuery.$or = flatOrConditions;
     }
 
     const products = await Product.find(searchQuery).limit(20);
