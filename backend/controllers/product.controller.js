@@ -27,8 +27,11 @@ const createProduct = async (req, res) => {
   try {
     const { name, description, price, category, stock } = req.body;
     let imageUrl = "";
+    
+    // Updated for Multer Memory Storage
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
+      const fileStr = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+      const result = await cloudinary.uploader.upload(fileStr);
       imageUrl = result.secure_url;
     }
 
@@ -58,8 +61,10 @@ const updateProduct = async (req, res) => {
       product.category = category || product.category;
       product.stock = stock || product.stock;
 
+      // Updated for Multer Memory Storage
       if (req.file) {
-        const result = await cloudinary.uploader.upload(req.file.path);
+        const fileStr = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+        const result = await cloudinary.uploader.upload(fileStr);
         product.imageUrl = result.secure_url;
       }
       const updateProduct = await product.save();
@@ -79,7 +84,8 @@ const deleteProduct = async (req, res) => {
       await product.deleteOne();
       res.json({ message: "product Removed" });
     } else {
-      res.stattus(404).json({ message: "Product Not Found" });
+      // Fixed a small typo here: res.stattus -> res.status
+      res.status(404).json({ message: "Product Not Found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
