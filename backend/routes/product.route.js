@@ -6,8 +6,8 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/product.controller.js");
-const { protectRoute } = require("../middlewares/auth.Middleware");
-const { admin } = require("../middlewares/admin.Middleware");
+const { protectRoute } = require("../middlewares/auth.middleware");
+const { admin } = require("../middlewares/admin.middleware");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
