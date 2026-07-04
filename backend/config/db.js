@@ -1,11 +1,21 @@
 const mongoose = require("mongoose");
 
-const connectDB = async (req, res) => {
+let isConnected = false;
+
+const connectDB = async () => {
+  mongoose.set("strictQuery", true);
+  if (isConnected) {
+    console.log("=> Using existing database connection");
+    return;
+  }
+
   try {
-    const connection = await mongoose.connect(process.env.MongoDB_URI);
-    console.log("MongoDB connected!");
+    const db = await mongoose.connect(process.env.MongoDB_URI);
+
+    isConnected = db.connections[0].readyState;
+    console.log("MongoDB connected successfully!");
   } catch (error) {
-    console.log("Err in DB Connection", error);
+    console.log("Err in DB Connection:", error.message);
   }
 };
 
