@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import { axiosInstance } from "../libs/axios";
+import axios from "axios"
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const backendUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axiosInstance.get("/api/products");
+        const res = await axios.get(`${backendUrl}/api/products`, { withCredentials: true });
         setProducts(res.data.slice(0, 4));
       } catch (error) {
         console.error(error);
