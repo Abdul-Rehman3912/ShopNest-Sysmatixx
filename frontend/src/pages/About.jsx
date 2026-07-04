@@ -15,22 +15,37 @@ const About = () => {
 
   return (
     <div style={containerStyle}>
-      <img
-        src="/dp.jpeg"
-        alt="@Abdul Rehman"
+      <div
         style={{
-          width: "180px",
-          maxWidth: "55vw",
-          height: "auto",
-          aspectRatio: "1 / 1",
-          borderRadius: "50%",
-          objectFit: "cover",
-          border: "4px solid #f97316",
-          marginBottom: "20px",
-          boxShadow: "0 4px 20px rgba(249, 115, 22, 0.4)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
         }}
-      />
-      <h2 style={{ fontSize: "clamp(2rem, 8vw, 2.5rem)", marginBottom: "10px", color: "#fff" }}>
+      >
+        <img
+          src="/dp.jpeg"
+          alt="@Abdul Rehman"
+          style={{
+            width: "180px",
+            maxWidth: "55vw",
+            height: "auto",
+            aspectRatio: "1 / 1",
+            borderRadius: "50%",
+            objectFit: "cover",
+            border: "4px solid #f97316",
+            marginBottom: "20px",
+            boxShadow: "0 4px 20px rgba(249, 115, 22, 0.4)",
+          }}
+        />
+      </div>
+      <h2
+        style={{
+          fontSize: "clamp(2rem, 8vw, 2.5rem)",
+          marginBottom: "10px",
+          color: "#fff",
+        }}
+      >
         About Me
       </h2>
       <h3
@@ -56,4 +71,3 @@ const About = () => {
 };
 
 export default About;
-

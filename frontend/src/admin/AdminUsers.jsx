@@ -31,7 +31,7 @@ const AdminUsers = () => {
               <th style={thStyle}>NAME</th>
               <th style={thStyle}>EMAIL</th>
               <th style={thStyle}>ROLE</th>
-              <th style={thStyle}>JOINED</th>
+              {/* <th style={thStyle}>JOINED</th> */}
             </tr>
           </thead>
           <tbody>
@@ -57,9 +57,9 @@ const AdminUsers = () => {
                     {u.role?.toUpperCase()}
                   </span>
                 </td>
-                <td style={tdStyle}>
+                {/* <td style={tdStyle}>
                   {new Date(u.createdAt).toLocaleDateString()}
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

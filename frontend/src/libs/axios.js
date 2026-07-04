@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
+
+const baseURL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://your-vercel-backend-url.vercel.app'; 
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
+  baseURL: baseURL,
+  withCredentials: true, 
 });
