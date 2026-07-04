@@ -8,14 +8,27 @@ const productRoute = require("./routes/product.route.js");
 const paymentRoute = require("./routes/payment.route.js");
 const orderRoute = require("./routes/order.route.js");
 const analyticRoute = require("./routes/analytic.route.js");
-const aiRoute = require("./routes/ai.route.js"); 
+const aiRoute = require("./routes/ai.route.js");
 
 dotenv.config();
 
 const app = express();
+
+connectDB();
+
+const allowedOrigins = ["http://localhost:3000", process.env.FRONTEND_URL];
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
     credentials: true,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -30,11 +43,13 @@ app.use("/api/products", productRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/payment", paymentRoute);
 app.use("/api/analytics", analyticRoute);
-app.use("/api", aiRoute); 
+app.use("/api", aiRoute);
 
-const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is Running on Port ${PORT}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Server is Running on Port ${PORT}`);
-  connectDB();
-});
+module.exports = app;
