@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import axios from "axios"
+import {axiosInstance} from "../libs/axios.js"
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${backendUrl}/api/products`, { withCredentials: true });
+        const res = await axiosInstance.get("/api/products");
         setProducts(res.data.slice(0, 4));
       } catch (error) {
         console.error(error);
