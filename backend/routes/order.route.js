@@ -6,7 +6,7 @@ const { admin } = require('../middlewares/admin.middleware');
 const router = express.Router();
 
 router.route('/').post(protectRoute, addOrderItems).get(protectRoute, admin, getOrders);
-router.route('/myorders').get(protectRoute, getMyOrders);
+router.route('/myorders').get( getMyOrders);
 router.route('/:id/status').put(protectRoute, admin, updateOrderStatus);
 
 module.exports = router;
