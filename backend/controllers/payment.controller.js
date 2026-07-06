@@ -19,8 +19,8 @@ const createOrder = async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:3000/ordersuccess`,
-      cancel_url: `http://localhost:3000/checkout`,
+      success_url: `${process.env.FRONTEND_URL}/ordersuccess`,
+      cancel_url: `${process.env.FRONTEND_URL}/checkout`,
       metadata: {
         userId,
         shippingAddress: JSON.stringify(shippingAddress),
