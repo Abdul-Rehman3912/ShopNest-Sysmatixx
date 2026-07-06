@@ -33,7 +33,7 @@ const signup = async (req, res) => {
       const otp = Math.floor(100000 + Math.random() * 900000);
 
       const message = `
-        <h2>Welcome to ShpNest, ${name}!</h2>
+        <h2>Welcome to ShopNest, ${name}!</h2>
         <p>Thank you registering on our platform.</p>
         <p>Your one-time varification/discount OTP is: <strong>${otp}</strong></p>
         `;
