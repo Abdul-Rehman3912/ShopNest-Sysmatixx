@@ -95,6 +95,22 @@ const AllUsers = async (req, res) => {
   }
 };
 
+const updateUserRole = async (req, res) => {
+  try {
+    const User = await user.findById(req.params.id);
+    if (User) {
+      User.role = req.body.role || User.role;
+      const updateUser = await User.save();
+      res.json(updateUser);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.log("Err:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const logout = (req, res) => {
   try {
   } catch (error) {}
@@ -104,5 +120,6 @@ module.exports = {
   signup,
   login,
   AllUsers,
+  updateUserRole,
   logout,
 };

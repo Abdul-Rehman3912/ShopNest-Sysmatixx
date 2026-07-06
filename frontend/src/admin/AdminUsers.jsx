@@ -20,6 +20,23 @@ const AdminUsers = () => {
     fetchUsers();
   }, [user]);
 
+  const updateStatus = async (id, role) => {
+    try {
+      const res = await axiosInstance.put(
+        `/api/auth/${id}/role`,
+        { role },
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        },
+      );
+      if (res.status === 200) {
+        setUsers(users.map((u) => (u._id === id ? { ...u, role } : u)));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div style={containerStyle}>
       <h2 style={{ color: "#f97316", marginBottom: "20px" }}>User Directory</h2>
@@ -37,25 +54,29 @@ const AdminUsers = () => {
           <tbody>
             {users.map((u) => (
               <tr key={u._id} style={rowStyle}>
-                <td style={tdStyle}>{u._id.substring(0, 8)}...</td>
+                <td style={tdStyle}>{u._id?.substring(0, 8)}...</td>
                 <td style={tdStyle}>{u.name}</td>
                 <td style={tdStyle}>{u.email}</td>
                 <td style={tdStyle}>
-                  <span
-                    style={{
-                      background:
-                        u.role === "admin"
-                          ? "rgba(234,88,12,0.2)"
-                          : "rgba(16,185,129,0.2)",
-                      color: u.role === "admin" ? "#f97316" : "#10b981",
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                      fontSize: "0.85rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {u.role?.toUpperCase()}
-                  </span>
+                  {u.role === "user" ? (
+                    <select
+                      onChange={(e) => updateStatus(u._id, e.target.value)}
+                      value={u.role}
+                      style={{
+                        background: "#09090b",
+                        color: "#fff",
+                        padding: "6px",
+                        border: "1px solid #27272a",
+                        borderRadius: "4px",
+                        outline: "none",
+                      }}
+                    >
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  ) : (
+                    <span>{u.role?.toUpperCase()}</span>
+                  )}
                 </td>
                 {/* <td style={tdStyle}>
                   {new Date(u.createdAt).toLocaleDateString()}
@@ -79,7 +100,11 @@ const containerStyle = {
   border: "1px solid rgba(255,255,255,0.05)",
   color: "#fafafa",
 };
-const tableStyle = { width: "100%", minWidth: "720px", borderCollapse: "collapse" };
+const tableStyle = {
+  width: "100%",
+  minWidth: "720px",
+  borderCollapse: "collapse",
+};
 const rowStyle = { borderBottom: "1px solid rgba(255,255,255,0.1)" };
 const thStyle = {
   padding: "15px",
