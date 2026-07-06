@@ -16,6 +16,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:3000",
+  "https://shop-nest-sysmatixx-jbqd.vercel.app",
   process.env.FRONTEND_URL,
 ];
 
